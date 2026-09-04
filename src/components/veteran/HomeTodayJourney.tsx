@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, CheckCircle2, Circle, Flame, Award, Calendar, ArrowRight, Play, Info, Heart, Shield, RefreshCw } from 'lucide-react';
+import { Sparkles, CheckCircle2, Circle, Flame, Award, Calendar, ArrowRight, Play, Info, Heart, Shield, RefreshCw, MapPin } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export const HomeTodayJourney: React.FC = () => {
@@ -20,236 +20,253 @@ export const HomeTodayJourney: React.FC = () => {
     .filter(t => t.status === 'completed')
     .reduce((sum, t) => sum + t.xpReward, 0);
 
-  const getCategoryColor = (cat: string) => {
-    switch (cat) {
-      case 'Physical': return 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20';
-      case 'Mental': return 'text-teal-400 bg-teal-400/10 border-teal-400/20';
-      case 'Social': return 'text-amber-400 bg-amber-400/10 border-amber-400/20';
-      case 'Nature': return 'text-cyan-400 bg-cyan-400/10 border-cyan-400/20';
-      case 'Routine': return 'text-indigo-400 bg-indigo-400/10 border-indigo-400/20';
-      default: return 'text-slate-400 bg-slate-400/10 border-slate-400/20';
-    }
-  };
+  const daysOfWeek = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 py-4 animate-fadeIn">
-      {/* Top Welcome Banner */}
-      <div className="p-6 rounded-2xl glass-card-accent flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2 text-emerald-400 text-xs font-extrabold uppercase tracking-wider">
-            <Sparkles className="w-4 h-4" /> Personal Recovery Companion
+    <div className="max-w-6xl mx-auto space-y-6 py-4 animate-fadeIn">
+      {/* TOP DUAL HERO SECTION (Matches Screenshot exactly) */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left Hero Card: TODAY'S BRIEF */}
+        <div className="lg:col-span-2 p-6 sm:p-8 rounded-2xl glass-panel relative overflow-hidden flex flex-col justify-between space-y-6">
+          {/* Ambient Nude Circle in top right */}
+          <div className="absolute -top-12 -right-12 w-48 h-48 bg-[#F7DFCC]/60 rounded-full blur-xl pointer-events-none" />
+
+          <div className="space-y-4 relative z-10">
+            <span className="label-overline">TODAY'S BRIEF</span>
+            <h1 className="font-heading text-3xl sm:text-5xl font-extrabold text-[#1C1917] leading-[0.95] tracking-tight">
+              Three things, done at your own pace.
+            </h1>
+            <p className="text-xs sm:text-sm text-[#786F68] max-w-xl leading-relaxed">
+              One for the mind, one for the body, one with other people. Everything is optional to skip — the record is yours, not a score.
+            </p>
           </div>
-          <h1 className="font-heading text-2xl font-bold text-white">
-            Welcome back, {currentVeteranUser.name}
-          </h1>
-          <p className="text-xs text-slate-300 italic">
-            "Small steps count. Consistency builds long-term peace."
-          </p>
+
+          <div className="flex flex-wrap items-center gap-3 relative z-10 pt-2">
+            <button
+              onClick={() => {
+                const firstPending = tasks.find(t => t.status === 'pending');
+                if (firstPending) {
+                  setTaskToComplete(firstPending);
+                  setIsCompletionModalOpen(true);
+                }
+              }}
+              className="px-5 py-2.5 rounded-xl bg-[#1C1917] hover:bg-black text-white font-bold text-xs shadow-warm transition-all"
+            >
+              Begin day
+            </button>
+            <button
+              onClick={() => setActiveScreen('profile-view')}
+              className="px-5 py-2.5 rounded-xl border border-[#E8DCCE] hover:bg-white text-[#1C1917] font-bold text-xs transition-colors bg-white/60"
+            >
+              Edit my brief
+            </button>
+          </div>
         </div>
 
-        {/* Level & Streak Stats */}
-        <div className="flex items-center gap-3 shrink-0">
-          <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-700/80 flex items-center gap-2">
-            <Flame className="w-5 h-5 text-amber-400 fill-amber-400 animate-pulse" />
-            <div>
-              <div className="text-[10px] uppercase font-bold text-slate-400">Recovery Streak</div>
-              <div className="text-sm font-extrabold text-amber-400">{currentVeteranProfile.streakDays} Days</div>
+        {/* Right Hero Card: SETUP */}
+        <div className="p-6 rounded-2xl glass-panel flex flex-col justify-between space-y-6">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="label-overline">SETUP</span>
+              <span className="label-overline">0 / 5</span>
+            </div>
+
+            {/* Segmented Progress bar */}
+            <div className="flex items-center gap-1.5">
+              {[1, 2, 3, 4, 5].map(step => (
+                <div
+                  key={step}
+                  className={`h-1.5 flex-1 rounded-full ${step === 1 ? 'bg-[#D96B27]' : 'bg-[#E8DCCE]'}`}
+                />
+              ))}
+            </div>
+
+            <div className="space-y-1">
+              <h2 className="font-heading text-xl font-bold text-[#1C1917]">
+                Finish your five-question setup.
+              </h2>
+              <p className="text-xs text-[#786F68] leading-relaxed">
+                A few answers help keep each day personal and practical.
+              </p>
             </div>
           </div>
 
-          <div className="p-3 rounded-xl bg-slate-900/80 border border-slate-700/80 flex items-center gap-2">
-            <Award className="w-5 h-5 text-emerald-400" />
-            <div>
-              <div className="text-[10px] uppercase font-bold text-slate-400">Total Points</div>
-              <div className="text-sm font-extrabold text-emerald-400">{currentVeteranProfile.totalXP} XP</div>
-            </div>
-          </div>
+          <button
+            onClick={() => setActiveScreen('assessment')}
+            className="w-full py-3 rounded-xl bg-[#D96B27] hover:bg-[#C55A1A] text-white font-bold text-xs flex items-center justify-center gap-2 shadow-rust transition-all"
+          >
+            <span>Continue setup</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
         </div>
       </div>
 
-      {/* TODAY'S RECOVERY JOURNEY PROGRESS CARD */}
-      <div className="p-6 rounded-2xl glass-panel border border-slate-800 space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-4">
-          <div>
-            <span className="text-xs font-bold uppercase tracking-widest text-emerald-400">
-              Today's Recovery Milestone Track
-            </span>
-            <h2 className="font-heading text-xl font-bold text-white mt-0.5">
-              TODAY'S RECOVERY JOURNEY
-            </h2>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-extrabold font-mono text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-lg border border-emerald-500/20">
-              {completedCount} / {totalCount} Completed
-            </span>
-            <span className="text-xs font-bold text-amber-400 bg-amber-400/10 px-3 py-1 rounded-lg border border-amber-400/20">
-              +{totalXPEarned} XP Earned
+      {/* LOWER SECTION: TODAY'S MISSIONS + SIDEBAR PROGRESS */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left Column: Today's Missions List */}
+        <div className="lg:col-span-2 space-y-4">
+          <div className="flex items-center justify-between px-1">
+            <h2 className="font-heading text-xl font-bold text-[#1C1917]">Today's missions</h2>
+            <span className="label-overline text-[11px] text-[#786F68]">
+              {completedCount} of {totalCount} complete
             </span>
           </div>
-        </div>
 
-        {/* Visual Node Journey Track */}
-        <div className="py-4">
-          <div className="relative flex items-center justify-between max-w-md mx-auto">
-            {/* Connecting Track Line */}
-            <div className="absolute top-1/2 left-0 right-0 h-1 bg-slate-800 -translate-y-1/2 -z-0" />
-            <div
-              className="absolute top-1/2 left-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-400 -translate-y-1/2 transition-all duration-500 -z-0"
-              style={{ width: `${(completedCount / Math.max(1, totalCount - 1)) * 100}%` }}
-            />
+          <div className="space-y-3">
+            {tasks.map((task, idx) => {
+              const isCompleted = task.status === 'completed';
+              const isSkipped = task.status === 'skipped';
+              const isRustButton = idx % 2 === 1;
 
-            {/* Nodes */}
-            {tasks.map((t, idx) => {
-              const isDone = t.status === 'completed';
               return (
-                <div key={t.id} className="relative z-10 flex flex-col items-center group">
-                  <div
-                    className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs transition-all ${
-                      isDone
-                        ? 'bg-emerald-500 text-slate-950 ring-4 ring-emerald-500/20 shadow-glow-emerald scale-110'
-                        : 'bg-slate-900 border-2 border-slate-700 text-slate-400'
-                    }`}
-                  >
-                    {isDone ? <CheckCircle2 className="w-5 h-5 stroke-[2.5]" /> : idx + 1}
+                <div
+                  key={task.id}
+                  className={`p-5 rounded-2xl glass-panel transition-all space-y-3 ${
+                    isCompleted
+                      ? 'bg-emerald-50/50 border-emerald-200 opacity-90'
+                      : isSkipped
+                      ? 'opacity-60 bg-stone-50/50'
+                      : 'hover:border-[#D96B27]'
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-start gap-3">
+                      {/* Nude Peach Pill Tag */}
+                      <span className="badge-pill-peach shrink-0 mt-0.5">
+                        {task.category}
+                      </span>
+                      <span className="label-overline text-[10px] text-[#786F68] shrink-0 mt-0.5">
+                        {String.fromCharCode(65 + idx)} • ~{task.durationMinutes} min
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <span className="label-overline text-[11px] text-[#786F68]">
+                        +{task.xpReward} pts
+                      </span>
+                      {!isCompleted && !isSkipped && (
+                        <button
+                          onClick={() => {
+                            setTaskToComplete(task);
+                            setIsCompletionModalOpen(true);
+                          }}
+                          className={`px-4 py-1.5 rounded-lg text-xs font-bold text-white transition-all shadow-sm ${
+                            isRustButton
+                              ? 'bg-[#D96B27] hover:bg-[#C55A1A]'
+                              : 'bg-[#1C1917] hover:bg-black'
+                          }`}
+                        >
+                          {isRustButton ? 'Check in' : 'Start'}
+                        </button>
+                      )}
+                      {isCompleted && (
+                        <span className="text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-lg flex items-center gap-1">
+                          <CheckCircle2 className="w-4 h-4" /> Completed
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <span className="text-[10px] text-slate-400 mt-2 font-medium max-w-[60px] text-center truncate">
-                    {t.title.split(' ')[0]}
-                  </span>
+
+                  <div className="space-y-1 pl-1">
+                    <h3 className={`font-heading text-lg font-bold ${isCompleted ? 'line-through text-[#786F68]' : 'text-[#1C1917]'}`}>
+                      {task.title}
+                    </h3>
+                    <p className="text-xs text-[#786F68] leading-relaxed">
+                      {task.description}
+                    </p>
+                  </div>
+
+                  {/* Micro Location Pill example if applicable */}
+                  {task.category === 'Nature' && (
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#F7DFCC]/60 border border-[#E8DCCE] text-[11px] font-medium text-[#8C4A1E]">
+                      <span className="w-2 h-2 rounded-full bg-[#D96B27]" />
+                      <span>Location ready • only for this check-in</span>
+                    </div>
+                  )}
                 </div>
               );
             })}
           </div>
         </div>
 
-        {/* Task List */}
-        <div className="space-y-3">
-          <div className="flex items-center justify-between text-xs font-bold text-slate-400 uppercase tracking-wider">
-            <span>Assigned Personalized Activities</span>
-            <span>Recommended Time</span>
+        {/* Right Column: Progress Sidebar Card (Matches Screenshot Right Panel) */}
+        <div className="p-6 rounded-2xl glass-panel space-y-6 h-fit">
+          {/* PROGRESS */}
+          <div className="space-y-3">
+            <span className="label-overline">PROGRESS</span>
+            <div className="flex items-baseline gap-2">
+              <span className="font-heading text-4xl sm:text-5xl font-extrabold text-[#1C1917]">
+                {(currentVeteranProfile.totalXP).toLocaleString()}
+              </span>
+              <span className="label-overline text-[10px] text-[#786F68]">POINTS TODAY +{totalXPEarned}</span>
+            </div>
+
+            {/* Progress bar */}
+            <div className="space-y-1">
+              <div className="w-full bg-[#E8DCCE] rounded-full h-2 overflow-hidden">
+                <div
+                  className="bg-[#D96B27] h-full transition-all duration-500"
+                  style={{ width: `${(currentVeteranProfile.totalXP % 1000) / 10}%` }}
+                />
+              </div>
+              <div className="flex justify-between label-overline text-[9px] text-[#786F68] pt-0.5">
+                <span>{currentVeteranProfile.totalXP % 1000} / 1000</span>
+                <span>to next patch</span>
+              </div>
+            </div>
           </div>
 
-          {tasks.map(task => {
-            const isCompleted = task.status === 'completed';
-            const isSkipped = task.status === 'skipped';
+          <hr className="border-[#E8DCCE]" />
 
-            return (
-              <div
-                key={task.id}
-                className={`p-4 rounded-xl border transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 ${
-                  isCompleted
-                    ? 'bg-emerald-950/20 border-emerald-800/40 opacity-90'
-                    : isSkipped
-                    ? 'bg-slate-900/40 border-slate-800/60 opacity-60'
-                    : 'bg-slate-900/80 border-slate-800 hover:border-slate-700'
-                }`}
-              >
-                {/* Left Task Meta */}
-                <div className="flex items-start gap-3">
-                  <button
-                    onClick={() => {
-                      if (!isCompleted) {
-                        setTaskToComplete(task);
-                        setIsCompletionModalOpen(true);
-                      }
-                    }}
-                    className={`mt-0.5 w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-colors ${
-                      isCompleted
-                        ? 'text-emerald-400'
-                        : 'text-slate-600 hover:text-emerald-400'
+          {/* STREAK */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="label-overline">STREAK</span>
+              <span className="label-overline text-[11px] text-[#786F68]">{currentVeteranProfile.streakDays} days</span>
+            </div>
+
+            {/* Day squares M T W T F S S */}
+            <div className="grid grid-cols-7 gap-1.5">
+              {daysOfWeek.map((day, i) => {
+                const isActive = i < 5;
+                return (
+                  <div
+                    key={i}
+                    className={`h-7 rounded-md flex items-center justify-center font-mono font-bold text-xs ${
+                      isActive
+                        ? 'bg-[#D96B27] text-white shadow-sm'
+                        : 'bg-[#F7DFCC] text-[#8C4A1E]'
                     }`}
                   >
-                    {isCompleted ? (
-                      <CheckCircle2 className="w-6 h-6 fill-emerald-500/20" />
-                    ) : (
-                      <Circle className="w-6 h-6" />
-                    )}
-                  </button>
-
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded border uppercase ${getCategoryColor(task.category)}`}>
-                        {task.category}
-                      </span>
-                      {task.isCustomCounselorAssigned && (
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-teal-500/20 text-teal-300 border border-teal-500/30">
-                          Counselor Recommended
-                        </span>
-                      )}
-                    </div>
-                    <h3 className={`text-sm font-bold ${isCompleted ? 'line-through text-slate-400' : 'text-slate-100'}`}>
-                      {task.title}
-                    </h3>
-                    <p className="text-xs text-slate-400 leading-relaxed line-clamp-1">{task.description}</p>
+                    {day}
                   </div>
-                </div>
+                );
+              })}
+            </div>
 
-                {/* Right Action Buttons */}
-                <div className="flex items-center gap-2 w-full sm:w-auto justify-end border-t sm:border-t-0 border-slate-800 pt-2 sm:pt-0">
-                  <span className="text-[11px] font-semibold text-amber-400 bg-amber-400/10 px-2 py-1 rounded border border-amber-400/20 shrink-0">
-                    +{task.xpReward} XP
-                  </span>
-
-                  <button
-                    onClick={() => setActiveTaskDetail(task)}
-                    className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center gap-1 transition-colors shrink-0"
-                    title="View instructions & grounding tips"
-                  >
-                    <Info className="w-4 h-4" />
-                  </button>
-
-                  {!isCompleted && !isSkipped && (
-                    <>
-                      <button
-                        onClick={() => {
-                          setTaskToComplete(task);
-                          setIsCompletionModalOpen(true);
-                        }}
-                        className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs shadow-glow-emerald flex items-center gap-1 transition-all"
-                      >
-                        <Play className="w-3.5 h-3.5 fill-current" /> Complete
-                      </button>
-                      <button
-                        onClick={() => skipTask(task.id, 'Deferred by veteran')}
-                        className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-rose-950 hover:text-rose-300 text-slate-400 text-xs font-medium transition-colors"
-                      >
-                        Skip
-                      </button>
-                    </>
-                  )}
-
-                  {isCompleted && (
-                    <span className="text-xs font-bold text-emerald-400 flex items-center gap-1 bg-emerald-500/10 px-3 py-1 rounded-lg">
-                      <CheckCircle2 className="w-4 h-4" /> Logged ({task.completedAt})
-                    </span>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Weekly Check-in Prompt Banner */}
-      <div className="p-5 rounded-2xl bg-gradient-to-r from-teal-950/60 to-slate-900 border border-teal-800/60 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-300 flex items-center justify-center font-bold shrink-0">
-            <Calendar className="w-5 h-5" />
-          </div>
-          <div>
-            <h3 className="text-sm font-bold text-white">Periodic Well-being Check-in Due</h3>
-            <p className="text-xs text-slate-400">
-              A 2-minute periodic check-in helps Dr. Ananya Nair adjust your recovery plan.
+            <p className="text-[11px] text-[#786F68] leading-relaxed italic">
+              Streaks are yours to keep. Missing a day never resets the record.
             </p>
           </div>
-        </div>
 
-        <button
-          onClick={() => setActiveScreen('weekly-checkin')}
-          className="px-5 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-extrabold flex items-center gap-2 shrink-0 transition-colors shadow-glow-teal"
-        >
-          <span>Take Check-in Survey</span>
-          <ArrowRight className="w-4 h-4" />
-        </button>
+          <hr className="border-[#E8DCCE]" />
+
+          {/* Stats List */}
+          <div className="space-y-2 text-xs">
+            <div className="flex items-center justify-between py-1 border-b border-[#E8DCCE]/60">
+              <span className="text-[#786F68]">Missions done</span>
+              <span className="font-mono font-bold text-[#1C1917]">{completedCount} / {totalCount}</span>
+            </div>
+            <div className="flex items-center justify-between py-1 border-b border-[#E8DCCE]/60">
+              <span className="text-[#786F68]">Groups joined</span>
+              <span className="font-mono font-bold text-[#1C1917]">2</span>
+            </div>
+            <div className="flex items-center justify-between py-1">
+              <span className="text-[#786F68]">Walks verified</span>
+              <span className="font-mono font-bold text-[#1C1917]">18</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

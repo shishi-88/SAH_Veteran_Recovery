@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ClipboardList, ArrowRight, ArrowLeft, CheckCircle2, Shield, Heart } from 'lucide-react';
+import { ClipboardList, ArrowRight, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export const InitialAssessment: React.FC = () => {
@@ -16,7 +16,6 @@ export const InitialAssessment: React.FC = () => {
     physicalActivity: 'Moderate',
     outdoorComfort: 'High',
     taskAbility: 'Moderate',
-    supportAreas: ['Sleep Routine', 'Stress Reduction', 'Nature Walking']
   });
 
   const questions = [
@@ -84,7 +83,6 @@ export const InitialAssessment: React.FC = () => {
     if (currentStep < questions.length - 1) {
       setCurrentStep(prev => prev + 1);
     } else {
-      // Complete Onboarding Assessment -> Navigate to Personalized Profile
       setActiveScreen('profile-view');
     }
   };
@@ -94,40 +92,43 @@ export const InitialAssessment: React.FC = () => {
   return (
     <div className="max-w-3xl mx-auto space-y-6 py-4 animate-fadeIn">
       {/* Header Banner */}
-      <div className="p-6 rounded-2xl glass-panel border border-emerald-500/30 flex items-center justify-between gap-4">
+      <div className="p-6 rounded-2xl glass-panel border border-[#E8DCCE] flex items-center justify-between gap-4 shadow-warm">
         <div>
-          <div className="flex items-center gap-2 text-emerald-400 font-extrabold text-xs uppercase tracking-wider mb-1">
-            <ClipboardList className="w-4 h-4" /> Structured Baseline Onboarding
-          </div>
-          <h1 className="font-heading text-2xl font-bold text-white">Initial Assessment & Personalization</h1>
-          <p className="text-xs text-slate-400 mt-1">
-            This survey creates your baseline recovery profile. Answers are strictly private and shared only with your assigned caregiver.
+          <span className="label-overline text-[10px] text-[#8C4A1E]">
+            SETUP SURVEY • {currentStep + 1} / {questions.length}
+          </span>
+          <h1 className="font-heading text-2xl sm:text-3xl font-extrabold text-[#1C1917] mt-1">
+            Finish your baseline setup.
+          </h1>
+          <p className="text-xs text-[#786F68] mt-1">
+            A few answers help keep each day personal, practical, and tailored to your pace.
           </p>
         </div>
-        <div className="text-right hidden sm:block">
-          <div className="text-2xl font-extrabold font-mono text-emerald-400">
-            {currentStep + 1} <span className="text-slate-500 text-sm">/ {questions.length}</span>
-          </div>
-          <div className="text-[10px] text-slate-400 uppercase font-bold">Progress</div>
+        <div className="text-right font-mono font-bold text-xl text-[#D96B27]">
+          {currentStep + 1} / {questions.length}
         </div>
       </div>
 
-      {/* Progress Bar */}
-      <div className="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800">
-        <div
-          className="bg-gradient-to-r from-emerald-500 to-teal-400 h-full transition-all duration-300"
-          style={{ width: `${((currentStep + 1) / questions.length) * 100}%` }}
-        />
+      {/* Segmented Progress Bar */}
+      <div className="flex items-center gap-1.5 px-1">
+        {questions.map((_, idx) => (
+          <div
+            key={idx}
+            className={`h-2 flex-1 rounded-full transition-all duration-300 ${
+              idx <= currentStep ? 'bg-[#D96B27]' : 'bg-[#E8DCCE]'
+            }`}
+          />
+        ))}
       </div>
 
       {/* Question Card */}
-      <div className="p-8 rounded-2xl glass-panel border border-slate-800 space-y-6">
+      <div className="p-8 rounded-2xl glass-panel border border-[#E8DCCE] space-y-6 shadow-warm">
         <div>
-          <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">
-            Step {currentStep + 1} of {questions.length}
+          <span className="label-overline text-[#8C4A1E]">
+            QUESTION {currentStep + 1} OF {questions.length}
           </span>
-          <h2 className="font-heading text-xl font-bold text-white mt-1">{currentQ.title}</h2>
-          <p className="text-xs text-slate-300 mt-1 leading-relaxed">{currentQ.subtitle}</p>
+          <h2 className="font-heading text-2xl font-bold text-[#1C1917] mt-1">{currentQ.title}</h2>
+          <p className="text-xs text-[#786F68] mt-1 leading-relaxed">{currentQ.subtitle}</p>
         </div>
 
         {/* Options */}
@@ -138,28 +139,28 @@ export const InitialAssessment: React.FC = () => {
               <button
                 key={option}
                 onClick={() => handleOptionSelect(currentQ.key, option)}
-                className={`p-4 rounded-xl text-left border text-xs font-semibold transition-all flex items-center justify-between ${
+                className={`p-4 rounded-xl text-left border text-xs font-bold transition-all flex items-center justify-between ${
                   isSelected
-                    ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300 shadow-glow-emerald'
-                    : 'bg-slate-900/80 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-800'
+                    ? 'bg-[#F7DFCC] border-[#D96B27] text-[#8C4A1E] shadow-sm'
+                    : 'bg-white border-[#E8DCCE] text-[#1C1917] hover:border-[#D96B27]'
                 }`}
               >
                 <span>{option}</span>
-                {isSelected && <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />}
+                {isSelected && <CheckCircle2 className="w-4 h-4 text-[#D96B27] shrink-0" />}
               </button>
             );
           })}
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center justify-between pt-4 border-t border-slate-800/80">
+        <div className="flex items-center justify-between pt-4 border-t border-[#E8DCCE]">
           <button
             onClick={() => setCurrentStep(prev => Math.max(0, prev - 1))}
             disabled={currentStep === 0}
             className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition-colors ${
               currentStep === 0
-                ? 'text-slate-600 cursor-not-allowed'
-                : 'text-slate-300 hover:bg-slate-800'
+                ? 'text-[#E8DCCE] cursor-not-allowed'
+                : 'text-[#786F68] hover:bg-white'
             }`}
           >
             <ArrowLeft className="w-4 h-4" /> Previous
@@ -167,7 +168,7 @@ export const InitialAssessment: React.FC = () => {
 
           <button
             onClick={handleNext}
-            className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-xs shadow-glow-emerald flex items-center gap-2 transition-all"
+            className="px-6 py-2.5 rounded-xl bg-[#D96B27] hover:bg-[#C55A1A] text-white font-extrabold text-xs shadow-rust flex items-center gap-2 transition-all font-heading tracking-wider"
           >
             <span>{currentStep === questions.length - 1 ? 'Generate Recovery Profile' : 'Next Question'}</span>
             <ArrowRight className="w-4 h-4" />

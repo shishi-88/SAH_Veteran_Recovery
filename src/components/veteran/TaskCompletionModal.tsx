@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, CheckCircle2, Sparkles, Smile, Flame, Award } from 'lucide-react';
+import { X, CheckCircle2, Sparkles } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
 export const TaskCompletionModal: React.FC = () => {
@@ -33,19 +33,19 @@ export const TaskCompletionModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn">
-      <div className="bg-slate-900 border border-emerald-500/40 rounded-2xl max-w-md w-full p-6 shadow-2xl relative text-slate-100 space-y-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1C1917]/70 backdrop-blur-sm animate-fadeIn">
+      <div className="bg-white border border-[#E8DCCE] rounded-3xl max-w-md w-full p-6 shadow-2xl relative text-[#1C1917] space-y-6">
         {/* Header */}
-        <div className="flex items-start justify-between border-b border-slate-800 pb-3">
+        <div className="flex items-start justify-between border-b border-[#E8DCCE] pb-3">
           <div>
-            <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-400">
-              Log Activity Completion
+            <span className="label-overline text-[10px] text-[#8C4A1E]">
+              LOG ACTIVITY COMPLETION
             </span>
-            <h2 className="font-heading text-lg font-bold text-white mt-0.5">{taskToComplete.title}</h2>
+            <h2 className="font-heading text-xl font-bold text-[#1C1917] mt-0.5">{taskToComplete.title}</h2>
           </div>
           <button
             onClick={() => setIsCompletionModalOpen(false)}
-            className="p-1 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-800"
+            className="p-2 rounded-xl text-[#786F68] hover:text-[#1C1917] hover:bg-[#FDF6EE]"
           >
             <X className="w-5 h-5" />
           </button>
@@ -53,12 +53,12 @@ export const TaskCompletionModal: React.FC = () => {
 
         {submitted ? (
           <div className="py-8 text-center space-y-4 animate-scaleUp">
-            <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto shadow-glow-emerald">
+            <div className="w-16 h-16 rounded-full bg-[#D96B27] text-white flex items-center justify-center mx-auto shadow-rust">
               <Sparkles className="w-8 h-8 animate-spin-slow" />
             </div>
             <div className="space-y-1">
-              <h3 className="text-xl font-extrabold text-white font-heading">Small Steps Count!</h3>
-              <p className="text-xs text-emerald-400 font-bold">
+              <h3 className="text-2xl font-extrabold text-[#1C1917] font-heading">Small Steps Count!</h3>
+              <p className="text-xs text-[#D96B27] font-bold">
                 +{taskToComplete.xpReward} Recovery XP Added to Profile
               </p>
             </div>
@@ -67,7 +67,7 @@ export const TaskCompletionModal: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Effort Rating 1-5 */}
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-200 block">
+              <label className="text-xs font-bold text-[#1C1917] block">
                 How much effort did this activity take today? (1 = Light, 5 = Very High)
               </label>
               <div className="flex items-center justify-between gap-2">
@@ -76,10 +76,10 @@ export const TaskCompletionModal: React.FC = () => {
                     key={num}
                     type="button"
                     onClick={() => setEffortRating(num)}
-                    className={`flex-1 py-2 rounded-xl text-xs font-extrabold border transition-all ${
+                    className={`flex-1 py-2 rounded-xl text-xs font-bold border transition-all ${
                       effortRating === num
-                        ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-glow-emerald'
-                        : 'bg-slate-950 border-slate-800 text-slate-300 hover:border-slate-700'
+                        ? 'bg-[#D96B27] text-white border-[#D96B27] shadow-rust'
+                        : 'bg-[#FDF6EE] border-[#E8DCCE] text-[#1C1917] hover:border-[#D96B27]'
                     }`}
                   >
                     {num}
@@ -90,7 +90,7 @@ export const TaskCompletionModal: React.FC = () => {
 
             {/* Mood Impact */}
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-200 block">
+              <label className="text-xs font-bold text-[#1C1917] block">
                 How do you feel after completing this?
               </label>
               <div className="grid grid-cols-2 gap-2">
@@ -101,8 +101,8 @@ export const TaskCompletionModal: React.FC = () => {
                     onClick={() => setMoodImpact(mood)}
                     className={`py-2 px-3 rounded-xl text-xs font-bold border transition-all text-center ${
                       moodImpact === mood
-                        ? 'bg-teal-500/20 border-teal-400 text-teal-300 shadow-sm'
-                        : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700'
+                        ? 'bg-[#F7DFCC] border-[#D96B27] text-[#8C4A1E] shadow-sm'
+                        : 'bg-[#FDF6EE] border-[#E8DCCE] text-[#786F68]'
                     }`}
                   >
                     {mood}
@@ -113,7 +113,7 @@ export const TaskCompletionModal: React.FC = () => {
 
             {/* Reflection / Notes */}
             <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-200 block">
+              <label className="text-xs font-bold text-[#1C1917] block">
                 Personal Reflection / Notes (Optional)
               </label>
               <textarea
@@ -121,21 +121,21 @@ export const TaskCompletionModal: React.FC = () => {
                 onChange={e => setNotes(e.target.value)}
                 placeholder="e.g., Felt calmer during walking. Sunlight was helpful."
                 rows={2}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-100 focus:outline-none focus:border-emerald-500"
+                className="w-full bg-[#FDF6EE] border border-[#E8DCCE] rounded-xl p-3 text-xs text-[#1C1917] focus:outline-none focus:border-[#D96B27]"
               />
             </div>
 
-            <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+            <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#E8DCCE]">
               <button
                 type="button"
                 onClick={() => setIsCompletionModalOpen(false)}
-                className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold"
+                className="px-4 py-2 rounded-xl bg-[#FDF6EE] text-[#786F68] text-xs font-bold border border-[#E8DCCE]"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-xs shadow-glow-emerald flex items-center gap-1.5"
+                className="px-5 py-2.5 rounded-xl bg-[#D96B27] hover:bg-[#C55A1A] text-white font-extrabold text-xs shadow-rust flex items-center gap-1.5 font-heading tracking-wider"
               >
                 <CheckCircle2 className="w-4 h-4" /> Save & Log +{taskToComplete.xpReward} XP
               </button>

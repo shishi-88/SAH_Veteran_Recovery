@@ -35,7 +35,7 @@ const MainContent: React.FC = () => {
   // 1. If not authenticated, render Auth System (Login, Registration, OTP Verification)
   if (!isAuthenticated || !currentUser) {
     return (
-      <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-center">
+      <div className="min-h-screen bg-[#FDF6EE] text-[#1C1917] flex flex-col justify-center">
         <AuthView />
       </div>
     );
@@ -43,7 +43,6 @@ const MainContent: React.FC = () => {
 
   // 2. Strict Role-Based View Guard
   const renderScreen = () => {
-    // If the authenticated user is a Veteran, strictly restrict to Veteran screens ONLY
     if (currentUser.role === 'veteran' || currentRole === 'veteran') {
       switch (activeScreen) {
         case 'splash': return <SplashWelcome />;
@@ -61,7 +60,6 @@ const MainContent: React.FC = () => {
       }
     }
 
-    // Only authorized clinical counselor accounts can view counselor screens
     switch (activeScreen) {
       case 'dashboard-overview': return <DashboardOverview />;
       case 'veteran-list': return <VeteranListView />;
@@ -79,7 +77,7 @@ const MainContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
+    <div className="min-h-screen flex flex-col bg-[#FDF6EE] text-[#1C1917]">
       <Header />
       <div className="flex flex-1">
         <Sidebar />

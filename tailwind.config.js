@@ -8,33 +8,50 @@ export default {
   theme: {
     extend: {
       colors: {
-        brand: {
-          50: '#ecfdf5',
-          100: '#d1fae5',
-          200: '#a7f3d0',
-          300: '#6ee7b7',
-          400: '#34d399',
-          500: '#10b981',
-          600: '#059669',
-          700: '#047857',
-          800: '#065f46',
-          900: '#064e3b',
-          950: '#022c22',
+        cream: {
+          50: '#FFFFFF',
+          100: '#FFFDF9',
+          200: '#FDF6EE',
+          300: '#F5EBE0',
+          400: '#E8DCCE',
+          500: '#D6C4B0',
         },
-        navy: {
-          800: '#1e293b',
-          900: '#0f172a',
-          950: '#090d16',
+        rust: {
+          50: '#FDF3ED',
+          100: '#FBE4D6',
+          200: '#F7C4A7',
+          300: '#F09D70',
+          400: '#E67A3D',
+          500: '#D96B27', // Primary Accent
+          600: '#C55A1A',
+          700: '#A14412',
+          800: '#7E3411',
+          900: '#5C250E',
+        },
+        peach: {
+          100: '#FDF2E9',
+          200: '#F7DFCC',
+          300: '#EEBD9B',
+          800: '#8C4A1E',
+        },
+        espresso: {
+          100: '#E7E5E4',
+          400: '#786F68',
+          700: '#44403C',
+          800: '#282524',
+          900: '#1C1917',
+          950: '#141211',
         }
       },
       fontFamily: {
-        sans: ['Plus Jakarta Sans', 'sans-serif'],
-        heading: ['Outfit', 'sans-serif'],
+        sans: ['DM Sans', 'sans-serif'],
+        heading: ['Oswald', 'sans-serif'],
+        mono: ['Space Mono', 'monospace'],
       },
       boxShadow: {
-        'glow-emerald': '0 0 20px -3px rgba(16, 185, 129, 0.3)',
-        'glow-amber': '0 0 20px -3px rgba(245, 158, 11, 0.3)',
-        'glow-rose': '0 0 20px -3px rgba(244, 63, 94, 0.3)',
+        'warm': '0 2px 8px -2px rgba(40, 37, 36, 0.05), 0 1px 3px -1px rgba(40, 37, 36, 0.03)',
+        'warm-md': '0 4px 16px -4px rgba(40, 37, 36, 0.08), 0 2px 6px -2px rgba(40, 37, 36, 0.04)',
+        'rust': '0 4px 14px -2px rgba(217, 107, 39, 0.35)',
       }
     },
   },
